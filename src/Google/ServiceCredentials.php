@@ -27,4 +27,13 @@ class ServiceCredentials extends DataTransferObject
             private_key: $config['private_key'],
         );
     }
+
+    public static function fromEnv(): static
+    {
+        return new static(
+            client_id: $_ENV['GOOGLE_WALLET_CLIENT_ID'],
+            client_email: $_ENV['GOOGLE_WALLET_CLIENT_EMAIL'],
+            private_key: $_ENV['GOOGLE_WALLET_PRIVATE_KEY'],
+        );
+    }
 }
