@@ -2,10 +2,12 @@
 
 namespace Chiiya\Passes\Google\Enumerators\Generic;
 
+use Chiiya\Passes\Common\LegacyValueEnumerator;
+
 /**
  * @see https://developers.google.com/wallet/reference/rest/v1/genericobject#GenericType
  */
-final class GenericType
+final class GenericType implements LegacyValueEnumerator
 {
     /** @var string */
     public const GENERIC_TYPE_UNSPECIFIED = 'GENERIC_TYPE_UNSPECIFIED';
@@ -63,5 +65,13 @@ final class GenericType
             self::GENERIC_RECEIPT,
             self::GENERIC_OTHER,
         ];
+    }
+
+    public static function mapLegacyValues(string $value): string
+    {
+        return match ($value) {
+            'genericTypeUnspecified' => self::GENERIC_TYPE_UNSPECIFIED,
+            default => $value,
+        };
     }
 }

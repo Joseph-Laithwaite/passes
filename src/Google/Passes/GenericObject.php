@@ -2,6 +2,8 @@
 
 namespace Chiiya\Passes\Google\Passes;
 
+use Antwerpes\DataTransferObject\Attributes\Cast;
+use Chiiya\Passes\Common\Casters\LegacyValueCaster;
 use Chiiya\Passes\Google\Components\Common\Image;
 use Chiiya\Passes\Google\Components\Common\LocalizedString;
 use Chiiya\Passes\Google\Components\Generic\Notifications;
@@ -44,6 +46,7 @@ class GenericObject extends AbstractObject
             GenericType::GENERIC_RECEIPT,
             GenericType::GENERIC_OTHER,
         ])]
+        #[Cast(LegacyValueCaster::class, GenericType::class)]
         public ?string $genericType = null,
         /**
          * Optional
