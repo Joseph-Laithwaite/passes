@@ -28,7 +28,7 @@ class JWT extends Component
     final public const AUDIENCE = 'google';
 
     /** @var string */
-    final public const TYPE = 'savetoandroidpay';
+    final public const TYPE = 'savetowallet';
 
     public function __construct(
         /**
