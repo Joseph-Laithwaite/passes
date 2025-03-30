@@ -15,9 +15,17 @@ final class MessageType implements LegacyValueEnumerator
     /** @var string */
     public const EXPIRATION_NOTIFICATION = 'EXPIRATION_NOTIFICATION';
 
+    /** @var string */
+    public const TEXT_AND_NOTIFY = 'TEXT_AND_NOTIFY';
+
     public static function values(): array
     {
-        return [self::MESSAGE_TYPE_UNSPECIFIED, self::TEXT, self::EXPIRATION_NOTIFICATION];
+        return [
+            self::MESSAGE_TYPE_UNSPECIFIED,
+            self::TEXT,
+            self::EXPIRATION_NOTIFICATION,
+            self::TEXT_AND_NOTIFY
+        ];
     }
 
     public static function mapLegacyValues(string $value): string
