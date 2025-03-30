@@ -393,7 +393,7 @@ class PassFactory
             throw new RuntimeException(sprintf('The certificate at "%s" could not be read', $this->certificate));
         }
 
-        if (! file_exists($this->wwdr)) {
+        if ($this->wwdr !== null && ! file_exists($this->wwdr)) {
             throw new RuntimeException(sprintf('The WWDR certificate at "%s" could not be read', $this->wwdr));
         }
 
@@ -403,16 +403,19 @@ class PassFactory
         $privateKey = openssl_pkey_get_private($certs['pkey'], $this->password);
         $signatureFile = $dir.'signature';
 
-        openssl_pkcs7_sign(
-            $dir.self::MANIFEST_FILENAME,
-            $signatureFile,
-            $certData,
-            $privateKey,
-            [],
-            PKCS7_BINARY | PKCS7_DETACHED,
-            $this->wwdr,
+        $success = openssl_pkcs7_sign(
+            input_filename: $dir.self::MANIFEST_FILENAME,
+            output_filename: $signatureFile,
+            certificate: $certData,
+            private_key: $privateKey,
+            headers: [],
+            flags: PKCS7_BINARY | PKCS7_DETACHED,
+            untrusted_certificates_filename: $this->wwdr,
         );
 
+        if(! $success) {
+            throw new RuntimeException('Failed to sign the pass');
+        }
         $signature = file_get_contents($signatureFile);
         $signature = $this->convertPEMtoDER($signature);
         file_put_contents($signatureFile, $signature);
